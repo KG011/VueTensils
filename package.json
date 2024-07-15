@@ -1,0 +1,31 @@
+{
+  "name": "VueComponent",
+  "private": "true",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "pnpm -C docs dev",
+    "dev": "pnpm -C play dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "play",
+    "packages/*"
+  ],
+  "dependencies": {
+    "@kg01/components": "workspace:^",
+    "@kg01/theme-chalk": "workspace:^",
+    "@kg01/utils": "workspace:^",
+    "typescript": "^5.5.3",
+    "vue": "^3.4.31"
+  },
+  "devDependencies": {
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "eslint": "9.x globals @eslint/js typescript-eslint eslint-plugin-vue",
+    "sass": "^1.77.8",
+    "unplugin-vue-define-options": "^1.4.5"
+  }
+}

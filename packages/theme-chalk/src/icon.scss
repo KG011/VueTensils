@@ -1,0 +1,11 @@
+@use 'mixins/mixins.scss' as *;
+@include b(icon){
+    display: inline-flex;
+    background: #fe6666;
+}
+.z-icon {
+    display: inline-flex;
+    background: #fe6666;
+    width: 20px;
+    height: 20px;
+}
