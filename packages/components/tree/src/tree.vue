@@ -36,22 +36,19 @@ function createOptions(label: string, key: string, children: string) {
   }
 }
 function createTree(data: TreeOptions[]){
-  function recursion(data: TreeOptions[]) {
+  function recursion(data: TreeOptions[],parent:TreeNode|null=null) {
     return data.map(node=> {
       const children=treeOptions.getChildren(node)||[]
       const treeNode:TreeNode = {
         label: treeOptions.getLabel(node),
         key: treeOptions.getKey(node),
-        //递归子元素
-        children: children.length>0?recursion(children):[],
-        level:1,
-        rawNode:node
+        children: [],
+        level:parent?parent.level+1:0,
+        rawNode:node,
+        isLeaf:node.isLeaf??children.length==0
       }
-      // if(children.length>0){
-      //   treeNode.children=recursion(children)
-      //   console.log(children);
-      // }
-      // children.length>0?treeNode.children=recursion(children):''
+      //递归子元素
+      children.length>0?treeNode.children=recursion(children,treeNode):''
       return treeNode
     })
   }
@@ -60,7 +57,6 @@ function createTree(data: TreeOptions[]){
 }
 watch(() => props.data, (data: TreeOptions[]) => {
   tree.value = createTree(data)
-  console.log(data);
   
   console.log(tree.value);
 }, {

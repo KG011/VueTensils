@@ -1,15 +1,17 @@
 import {ExtractPropTypes,PropType} from 'vue'
 //递归树接口类型
 export interface TreeNode extends Required<TreeOptions>{
-    level:Number,
+    level:number,
     rawNode:TreeOptions,
     children:TreeNode[],
+    isLeaf:boolean
 }
 //用户传参接口类型
 export interface TreeOptions{
     label?:string|number,
     key?:string|number,
     children:TreeOptions[],
+    isLeaf:boolean,
     [key:string]:unknown
 }
 //用户传参接口props
