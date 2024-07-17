@@ -8,3 +8,4 @@ declare module 'vue' {
     ZTree: typeof Tree.default
   }
 }
+export * from './src/tree'

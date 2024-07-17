@@ -23,6 +23,7 @@
     "vue": "^3.4.31"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue-jsx": "^4.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "eslint": "9.x globals @eslint/js typescript-eslint eslint-plugin-vue",
     "sass": "^1.77.8",

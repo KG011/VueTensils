@@ -1,0 +1,26 @@
+.z-tree {
+    display: inline-block;
+    width: 100%;
+    .z-tree-node {
+        padding: 5px 0;
+        font-size: 16px;
+        .z-tree-node__content{
+            display: flex;
+            align-items: center;
+            .z-tree-node__expanded-icon {
+                display: inline-block;
+                vertical-align: middle;
+                transform: rotate(0deg);
+                transition: transform 0.2s ease-in;
+                &.expanded {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+       
+    }
+    .is-selected{
+        background: #ffdbdb;
+    }
+}
+
