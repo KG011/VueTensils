@@ -2,18 +2,20 @@
   <div :class="[bem.b(),bem.is('selected',isSelect)]">
     <div :class="bem.e('content')" :style="{paddingLeft:`${node.level*16}px`}">
         <span v-if="!node.isLeaf"  :class="[bem.e('expanded-icon'), {expanded:expanded&&!node?.isLeaf}]" @click="changeExpand">></span>
-        <span class="test-mixin" @click="handleSelected">{{ node?.label }}</span>
+        <span class="test-mixin" @click="handleSelected">
+          <zTreeNodeContent :node="node"></zTreeNodeContent>
+        </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {treeNodeProps,treeToggleEmits } from './tree'
+import {treeInjectKey, treeNodeProps,treeToggleEmits } from './tree'
 import { AddCircle } from "@vicons/ionicons5"
 import { createNamespace } from "@kg01/utils/create"
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { handleError } from 'vue';
-
+import zTreeNodeContent from './treeNodeContent'
 const props=defineProps(treeNodeProps)
 const emit=defineEmits(treeToggleEmits)
 function changeExpand(){
@@ -26,6 +28,13 @@ const isSelect=computed(()=>{
 })
 function handleSelected(){
   emit('select',props.node)
+}
+const treeContext = inject(treeInjectKey)
+// 使用可选链和类型检查
+if (treeContext?.slots.default && typeof treeContext.slots.default === 'function') {
+  console.log(treeContext.slots.default(props.node))
+} else {
+  console.log('Default slot is not a function')
 }
 </script>
 

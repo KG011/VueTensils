@@ -1,4 +1,4 @@
-import {ExtractPropTypes,PropType} from 'vue'
+import {ExtractPropTypes,InjectionKey,PropType, SetupContext} from 'vue'
 //递归树接口类型
 export type Key=string|number
 export interface TreeNode extends Required<TreeOptions>{
@@ -27,7 +27,7 @@ export const treeProps={
     },
     keyField:{
         type:String,
-        default:'label'
+        default:'key'
     },
     childrenField:{
         type:String,
@@ -66,6 +66,12 @@ export const treeNodeProps={
         default:()=>[]
     }
 } as const
+export const treeNodeContentProps={
+    node:{
+        type:Object as PropType<TreeNode>,
+        required:true
+    }
+}
 export const treeToggleEmits={
     toggle:(node:TreeNode)=>node,
     select:(node:TreeNode)=>node,
@@ -76,6 +82,12 @@ export const treeEmits={
         return keys
     }
 }
+//接收插槽
+export interface TreeContext{
+    slots:SetupContext['slots']
+}
+//插槽名称，拿来提供出去
+export const treeInjectKey:InjectionKey<TreeContext>=Symbol()
 //Partial<>将对象属性设为可选属性，可传可不传
 export type TreeProps=Partial<ExtractPropTypes<typeof treeProps>>
 export type TreeNodeProps=Partial<ExtractPropTypes<typeof treeNodeProps>>

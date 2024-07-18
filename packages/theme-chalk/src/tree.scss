@@ -4,17 +4,26 @@
     .z-tree-node {
         padding: 5px 0;
         font-size: 16px;
+        
         .z-tree-node__content{
             display: flex;
             align-items: center;
+            flex: 1;
             .z-tree-node__expanded-icon {
                 display: inline-block;
                 vertical-align: middle;
                 transform: rotate(0deg);
                 transition: transform 0.2s ease-in;
+                cursor: pointer;
                 &.expanded {
                     transform: rotate(90deg);
                 }
+
+            }
+            .test-mixin{
+                display: flex;
+                flex: 1;
+                cursor: pointer;
             }
         }
        

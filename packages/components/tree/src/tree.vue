@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue"
-import { Key, treeEmits, TreeNode, TreeOptions, treeProps } from './tree'
+import { computed, provide, ref, useSlots, watch } from "vue"
+import { Key, treeEmits, treeInjectKey, TreeNode, TreeOptions, treeProps } from './tree'
 import { createNamespace } from "@kg01/utils/create"
 import ZTreeNode from './treeNode.vue'
 defineOptions({
@@ -171,7 +171,10 @@ function handleSelect(node:TreeNode){
   
   emit('update:selectedKeys',keys)
 }
-
+//App.vue插槽传的提供出去
+provide(treeInjectKey,{
+  slots:useSlots()
+})
 </script>
 
 <style lang="less" scoped></style>
