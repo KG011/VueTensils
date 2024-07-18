@@ -1,14 +1,15 @@
 <template>
   <div :class=bem.b()>
-    <z-tree-node 
-    v-for="node in flattenTree" 
-    :key="node.key" 
-    :node="node" 
-    :expanded="isExpanded(node)"
-    :selectKeyRef="selectKeyRef"
-    @select="handleSelect"
-    @toggle="toggleExpand">
-    </z-tree-node>
+    <!-- <zVirtualList :flattenTree="flattenTree" :max="8" :size="35">
+      <template #defalut="{node}">
+        <z-tree-node  :node="node" :expanded="isExpanded(node)"
+          :selectKeyRef="selectKeyRef" @select="handleSelect" @toggle="toggleExpand">
+        </z-tree-node>
+      </template>
+</zVirtualList> -->
+    <ZTreeNode v-for="node in flattenTree" :key="node.key" :node="node" :expanded="isExpanded(node)"
+      :selectKeyRef="selectKeyRef" @select="handleSelect" @toggle="toggleExpand">
+    </ZTreeNode>
   </div>
 </template>
 
@@ -150,30 +151,30 @@ watch(
     immediate: true
   }
 )
-function handleSelect(node:TreeNode){
-  let keys=Array.from(selectKeyRef.value)
-  if(!props.selectAble) return
+function handleSelect(node: TreeNode) {
+  let keys = Array.from(selectKeyRef.value)
+  if (!props.selectAble) return
 
-  if(props.multiple){
-    const index=keys.findIndex(key=>key===node.key)
-    if(index>-1){
-      keys.splice(index,1)
-    }else{
+  if (props.multiple) {
+    const index = keys.findIndex(key => key === node.key)
+    if (index > -1) {
+      keys.splice(index, 1)
+    } else {
       keys.push(node.key)
     }
-  }else{
-    if(keys.includes(node.key)){
-      keys=[]
-    }else{
-      keys=[node.key]
+  } else {
+    if (keys.includes(node.key)) {
+      keys = []
+    } else {
+      keys = [node.key]
     }
   }
-  
-  emit('update:selectedKeys',keys)
+
+  emit('update:selectedKeys', keys)
 }
 //App.vue插槽传的提供出去
-provide(treeInjectKey,{
-  slots:useSlots()
+provide(treeInjectKey, {
+  slots: useSlots()
 })
 </script>
 

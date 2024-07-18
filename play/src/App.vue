@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AddCircle } from "@vicons/ionicons5"
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { TreeOptions } from "@kg01/components/tree"
 import { Key } from "../../packages/components/tree"
 function createData(level=4,parentKey=''):any{
@@ -73,8 +73,7 @@ const value = ref<Key[]>([])
         <!-- 允许用户自定义结构内容（传html） -->
         <template #default="{node}">{{ node?.key }}--{{ node?.label }}</template>
     </z-tree>
-    <!-- <z-tree :data="data" labelField="label" keyField="key" childrenField="children"
-        :defalut-expanded-key="['40', '41', '4030']">awdad</z-tree> -->
+    <z-button size="normary" type="danger" :round="true" :loading="true">按钮</z-button>
 </template>
 
 <style scoped></style>

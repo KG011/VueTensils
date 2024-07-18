@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup >
 import {treeInjectKey, treeNodeProps,treeToggleEmits } from './tree'
 import { AddCircle } from "@vicons/ionicons5"
 import { createNamespace } from "@kg01/utils/create"
@@ -18,6 +18,9 @@ import { handleError } from 'vue';
 import zTreeNodeContent from './treeNodeContent'
 const props=defineProps(treeNodeProps)
 const emit=defineEmits(treeToggleEmits)
+defineOptions({
+  name: 'z-tree-node'
+})
 function changeExpand(){
   emit('toggle',props.node)
 }
