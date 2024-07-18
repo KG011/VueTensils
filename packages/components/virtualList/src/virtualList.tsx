@@ -18,7 +18,7 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            return 
+            return
         }
     }
 })

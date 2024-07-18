@@ -1,0 +1,43 @@
+@use 'common/var.scss' as *;
+.z-button{
+    display: inline-block;
+    min-height: 40px;
+    padding: 0 20px;
+    border: #fafafa;
+    border-radius: 5px;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+    cursor: pointer;
+    &--small{
+        padding: 0 15px;
+    }
+    &--normary{
+        padding: 0 20px;
+    }
+    &--large{
+        padding: 0 25px;
+    }
+    &--danger{
+        background:$color-danger;
+    }
+    &--primary{
+        background: $color-primary;
+    }
+    &--info{
+        background: $color-info;
+    }
+    &--warning{
+        background: $color-warning;
+    }
+    &--success{
+        background: $color-success;
+    }
+    
+}
+.is-round{
+    border-radius: 20px;
+}
+.is-disabled{
+cursor: not-allowed;
+}

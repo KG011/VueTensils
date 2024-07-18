@@ -63,6 +63,10 @@ const value = ref<Key[]>([])
 //         console.log(value.value);
         
 //     })
+function handleClick(){
+    console.log(1);
+    
+}
 </script>
 
 <template>
@@ -73,7 +77,7 @@ const value = ref<Key[]>([])
         <!-- 允许用户自定义结构内容（传html） -->
         <template #default="{node}">{{ node?.key }}--{{ node?.label }}</template>
     </z-tree>
-    <z-button size="normary" type="danger" :round="true" :loading="true">按钮</z-button>
+    <z-button size="normal" type="primary" :round="true" :loading="false" @click="handleClick">按钮</z-button>
 </template>
 
 <style scoped></style>
