@@ -1,14 +1,17 @@
 <template>
   <div :class=bem.b()>
-    <!-- <zVirtualList :flattenTree="flattenTree" :max="8" :size="35">
-      <template #defalut="{node}">
-        <z-tree-node  :node="node" :expanded="isExpanded(node)"
-          :selectKeyRef="selectKeyRef" @select="handleSelect" @toggle="toggleExpand">
-        </z-tree-node>
-      </template>
-</zVirtualList> -->
-    <ZTreeNode v-for="node in flattenTree" :key="node.key" :node="node" :expanded="isExpanded(node)"
-      :selectKeyRef="selectKeyRef" @select="handleSelect" @toggle="toggleExpand">
+    <ZTreeNode v-for="node in flattenTree" 
+      :key="node.key" :node="node" 
+      :expanded="isExpanded(node)"
+      :selectKeyRef="selectKeyRef"
+      :show-checkbox="showCheckbox" 
+      :checked="isChecked(node)"
+      :disabled="isDisabled(node)"
+      :indeterminate="isIndeterminate(node)"
+      @select="handleSelect" 
+      @toggle="toggleExpand"
+      @change="handleChange"
+    >
     </ZTreeNode>
   </div>
 </template>
@@ -57,7 +60,8 @@ function createTree(data: TreeOptions[], parent: TreeNode | null = null) {
         children: [],
         level: parent ? parent.level + 1 : 0,
         rawNode: node,
-        isLeaf: node.isLeaf ?? children.length == 0
+        isLeaf: node.isLeaf ?? children.length == 0,
+        parentKey:parent?.key
       }
       //递归子元素
       children.length > 0 ? treeNode.children = recursion(children, treeNode) : ''
@@ -67,7 +71,7 @@ function createTree(data: TreeOptions[], parent: TreeNode | null = null) {
   const result: TreeNode[] = recursion(data, parent)
   return result
 }
-watch(() => props.data, (data: TreeOptions[]) => {
+watch(() => props.data, (data: TreeOptions[]) => {    
   tree.value = createTree(data)
 }, {
   immediate: true
@@ -172,6 +176,75 @@ function handleSelect(node: TreeNode) {
 
   emit('update:selectedKeys', keys)
 }
+
+function isDisabled(node:TreeNode){
+  return !!node.disabled
+}
+const indeterminateRef=ref(new Set())
+
+function isIndeterminate(node:TreeNode){
+  return indeterminateRef.value.has(node.key)
+}
+const CheckedKeysRef=ref(new Set(props.defaultCheckedKeys))
+function isChecked(node:TreeNode){
+  return CheckedKeysRef.value.has(node.key)
+}
+//自上而下
+function toggleCheckbox(node:TreeNode,checked:boolean){
+  const  checkKeys=CheckedKeysRef.value
+  //清除半选状态
+  if(checked){
+    indeterminateRef.value.delete(node.key)
+  }
+  checkKeys[checked?'add':'delete'](node.key)
+  
+  const children=node.children
+  if(children){
+    children.forEach((childNode)=>{
+      toggleCheckbox(childNode,checked)
+    })
+  }
+}
+function fineNode(key:Key){
+  return flattenTree.value.find(node=>node.key==key)
+}
+//自下而上
+function updateCheckbox(node:TreeNode){
+  if(node.parentKey){
+    const parentNode=fineNode(node.parentKey)
+    if(parentNode){
+      let allCheck=true//默认儿子全选
+      let hasCheck=false//儿子有没有被选中
+      const nodes=parentNode.children
+      for(const node of nodes){
+        if(CheckedKeysRef.value.has(node.key)){
+          hasCheck=true
+        }else if(indeterminateRef.value.has(node.key)){
+          allCheck=false
+          hasCheck=true
+        }else{
+          allCheck=false
+        }
+      }
+      if(allCheck){
+        CheckedKeysRef.value.add(parentNode.key)
+        indeterminateRef.value.delete(parentNode.key)
+      }else if(hasCheck){
+        CheckedKeysRef.value.delete(parentNode.key)
+        indeterminateRef.value.add(parentNode.key)
+      }else{
+        CheckedKeysRef.value.delete(parentNode.key)
+        indeterminateRef.value.delete(parentNode.key)
+      }
+      updateCheckbox(parentNode)
+    }
+  }
+}
+function handleChange(node:TreeNode,checked:boolean){
+  toggleCheckbox(node,checked)
+  updateCheckbox(node)
+}
+
 //App.vue插槽传的提供出去
 provide(treeInjectKey, {
   slots: useSlots()

@@ -5,7 +5,8 @@ export interface TreeNode extends Required<TreeOptions>{
     level:number,
     rawNode:TreeOptions,
     children:TreeNode[],
-    isLeaf:boolean
+    isLeaf:boolean,
+    parentKey:Key|undefined
 }
 //用户传参接口类型
 export interface TreeOptions{
@@ -49,6 +50,15 @@ export const treeProps={
         type:Boolean,
         default:true
     },
+    showCheckbox:{
+        type:Boolean,
+        default:false
+    },
+    defaultCheckedKeys:{
+        type:Array as PropType<Key[]>,
+        default:()=>[]
+    },
+    disabled:Boolean,
     onLoad:Function as PropType<(node:TreeOptions)=>Promise<TreeOptions[]>>
 } as const
 export const treeNodeProps={
@@ -64,7 +74,14 @@ export const treeNodeProps={
     selectKeyRef:{
         type:Array as PropType<Key[]>,
         default:()=>[]
-    }
+    },
+    showCheckbox:{
+        type:Boolean,
+        default:false
+    },
+    checked:Boolean,
+    disabled:Boolean,
+    indeterminate:Boolean
 } as const
 export const treeNodeContentProps={
     node:{
@@ -75,6 +92,7 @@ export const treeNodeContentProps={
 export const treeToggleEmits={
     toggle:(node:TreeNode)=>node,
     select:(node:TreeNode)=>node,
+    change:(node:TreeNode,val:boolean)=>typeof val=='boolean',
 }
 //同步响应式数据
 export const treeEmits={

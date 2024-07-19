@@ -3,15 +3,15 @@ import { AddCircle } from "@vicons/ionicons5"
 import { ref } from 'vue'
 import { TreeOptions } from "@kg01/components/tree"
 import { Key } from "../../packages/components/tree"
-function createData(level=4,parentKey=''):any{
-    if(!level) return []
-    const arr=new Array(6-level).fill(0)
-    return arr.map((_,idx:number)=>{
-        const key =parentKey+level+idx
+function createData(level = 4, parentKey = ''): any {
+    if (!level) return []
+    const arr = new Array(6 - level).fill(0)
+    return arr.map((_, idx: number) => {
+        const key = parentKey + level + idx
         return {
-            label:createLabel(level),//显示内容
+            label: createLabel(level),//显示内容
             key,//唯一性
-            children:createData(level-1,key)//孩子
+            children: createData(level - 1, key)//孩子
         }
     })
 }
@@ -57,14 +57,18 @@ function handleLoad(node: TreeOptions) {
     })
 }
 const value = ref<Key[]>([])
+const check = ref<Boolean>(true)
 // watch(
 //     () => value.value,
 //     () => {
 //         console.log(value.value);
-        
+
 //     })
-function handleClick(){
+function handleClick() {
     console.log(1);
+}
+function handleChange(val:boolean){
+    console.log(val);
     
 }
 </script>
@@ -73,11 +77,20 @@ function handleClick(){
     <z-icon :color="'red'" :size="'14'">
         <AddCircle></AddCircle>
     </z-icon>
-    <z-tree :data="data" :on-load="handleLoad" v-model:selected-keys="value" selectAble multiple>
+    <z-tree 
+    :data="data" 
+    :on-load="handleLoad" 
+    v-model:selected-keys="value" 
+    select-able 
+    multiple
+    :disabled="true"
+    show-checkbox
+    >
         <!-- 允许用户自定义结构内容（传html） -->
-        <template #default="{node}">{{ node?.key }}--{{ node?.label }}</template>
+        <template #default="{ node }">{{ node?.key }}--{{ node?.label }}</template>
     </z-tree>
     <z-button size="normal" type="primary" :round="true" :loading="false" @click="handleClick">按钮</z-button>
+    <z-checkbox v-model="check" label="节点" :indeterminate="true" @change="handleChange"></z-checkbox>
 </template>
 
 <style scoped></style>

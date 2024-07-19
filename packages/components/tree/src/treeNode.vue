@@ -2,6 +2,12 @@
   <div :class="[bem.b(),bem.is('selected',isSelect)]">
     <div :class="bem.e('content')" :style="{paddingLeft:`${node.level*16}px`}">
         <span v-if="!node.isLeaf"  :class="[bem.e('expanded-icon'), {expanded:expanded&&!node?.isLeaf}]" @click="changeExpand">></span>
+        <ZCheckbox v-if="showCheckbox" 
+        :model-value="checked"
+        :disabled="disabled"
+        :indeterminate="indeterminate"
+        @change="handleChange"
+        ></ZCheckbox>
         <span class="test-mixin" @click="handleSelected">
           <zTreeNodeContent :node="node"></zTreeNodeContent>
         </span>
@@ -9,13 +15,14 @@
   </div>
 </template>
 
-<script setup >
+<script setup lang="ts">
 import {treeInjectKey, treeNodeProps,treeToggleEmits } from './tree'
 import { AddCircle } from "@vicons/ionicons5"
 import { createNamespace } from "@kg01/utils/create"
 import { computed, inject } from 'vue'
 import { handleError } from 'vue';
 import zTreeNodeContent from './treeNodeContent'
+import ZCheckbox from '@kg01/components/checkbox'
 const props=defineProps(treeNodeProps)
 const emit=defineEmits(treeToggleEmits)
 defineOptions({
@@ -29,6 +36,10 @@ const isSelect=computed(()=>{
   // console.log(props.node.key);
   return props.selectKeyRef.includes(props.node.key)
 })
+function handleChange(val:boolean){
+  emit('change',props.node,val)
+
+}
 function handleSelected(){
   emit('select',props.node)
 }
