@@ -1,5 +1,5 @@
 <template>
-  <div  @scroll="onScroll" ref="root">
+  <div  @scroll="onScroll" ref="root" :class="bem.b()" :style="boxHeight">
     <div :style="paddingStyle" >
       <div v-for="item in slots" :key="item.key" :data-index="item.key" style="height:80px">
         <span>{{ item.key }}-{{ item.dataSoure.desc }}</span>
@@ -12,9 +12,11 @@
 import { computed, onBeforeMount, onMounted, reactive, ref } from "vue"
 import { RangeOptions, updataType, virtualListProps, VirtualOptions } from './virtualList'
 import { initVirtual } from './virtual'
+import { createNamespace } from "@kg01/utils/create"
 defineOptions({
   name: 'z-virtual-list'
 })
+const bem = createNamespace('virtual-list')
 const props = defineProps(virtualListProps)
 const range = ref<RangeOptions>({
   start: 0,
@@ -23,6 +25,12 @@ const range = ref<RangeOptions>({
   padBehind: 0
 })
 const slots = ref()
+const boxHeight=computed(()=>{
+  
+  return {
+    height:props.itemSize*props.keep+'px'
+  }
+})
 const paddingStyle = computed(() => {
   return {
     padding: `${range.value.padFront}px 0 ${range.value.padBehind}px 0`

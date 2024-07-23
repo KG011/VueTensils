@@ -91,26 +91,17 @@ const items = ref(dataList)
 
 <template>
     <!-- <z-button size="normal" type="primary" :round="true" :loading="false" @click="handleClick">按钮</z-button>
-
     <z-icon :color="'red'" :size="'14'">
         <AddCircle></AddCircle>
     </z-icon> -->
     <z-tree :data="data" :on-load="handleLoad" v-model:selected-keys="value" select-able multiple :disabled="true"
         show-checkbox>
         <template #default="{ node }">{{ node?.key }}--{{ node?.label }}</template>
-</z-tree>
+    </z-tree>
     <!-- <z-checkbox v-model="check" label="节点" :indeterminate="true" @change="handleChange"></z-checkbox> -->
-    <z-virtual-list class="z-virtual-list" :data-soures="items" data-key="id" :keep="6" :item-size="80">
-        <!-- <Item></Item> -->
+    <z-virtual-list :data-soures="items" data-key="id" :keep="6" :item-size="80">
     </z-virtual-list>
 
 </template>
 
-<style scoped>
-.z-virtual-list {
-    width: 100%;
-    height: 500px;
-    overflow-y: scroll;
-    border: 3px solid red;
-}
-</style>
+<style scoped></style>

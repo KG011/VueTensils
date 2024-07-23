@@ -32,8 +32,6 @@ export function initVirtual(param:VirtualOptions,update:updataType){
         }else if(end-start<=keep-1){
             start=end-keep+1
         }
-        console.log(start,end);
-        
         updateRange(start,end)
     }
     function getScrollOvers(){
@@ -51,7 +49,6 @@ export function initVirtual(param:VirtualOptions,update:updataType){
             return
         }
         const start=Math.max(overs-param.buffer,0)
-        console.log(start);
         checkRange(start,getEndByStart(overs))
     }
     function handleBehind(){
