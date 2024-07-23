@@ -3,6 +3,8 @@ import { AddCircle } from "@vicons/ionicons5"
 import { ref } from 'vue'
 import { TreeOptions } from "@kg01/components/tree"
 import { Key } from "../../packages/components/tree"
+import { Random } from "mockjs"
+import Item from './item.vue'
 function createData(level = 4, parentKey = ''): any {
     if (!level) return []
     const arr = new Array(6 - level).fill(0)
@@ -58,39 +60,57 @@ function handleLoad(node: TreeOptions) {
 }
 const value = ref<Key[]>([])
 const check = ref<Boolean>(true)
-// watch(
-//     () => value.value,
-//     () => {
-//         console.log(value.value);
-
-//     })
 function handleClick() {
     console.log(1);
 }
-function handleChange(val:boolean){
+function handleChange(val: boolean) {
     console.log(val);
-    
+
 }
+
+////
+const totalCount = 100
+interface DataType {
+    id: number,
+    name: string,
+    desc: string,
+    index: number
+}
+const dataList: Array<DataType> = []
+let index = 0
+while (index++ !== totalCount) {
+    dataList.push({
+        id: index,
+        name: Random.name(),
+        desc: Random.csentence(),
+        index
+    })
+}
+const items = ref(dataList)
 </script>
 
 <template>
+    <!-- <z-button size="normal" type="primary" :round="true" :loading="false" @click="handleClick">按钮</z-button>
+
     <z-icon :color="'red'" :size="'14'">
         <AddCircle></AddCircle>
-    </z-icon>
-    <z-tree 
-    :data="data" 
-    :on-load="handleLoad" 
-    v-model:selected-keys="value" 
-    select-able 
-    multiple
-    :disabled="true"
-    show-checkbox
-    >
-        <!-- 允许用户自定义结构内容（传html） -->
+    </z-icon> -->
+    <z-tree :data="data" :on-load="handleLoad" v-model:selected-keys="value" select-able multiple :disabled="true"
+        show-checkbox>
         <template #default="{ node }">{{ node?.key }}--{{ node?.label }}</template>
-    </z-tree>
-    <z-button size="normal" type="primary" :round="true" :loading="false" @click="handleClick">按钮</z-button>
-    <z-checkbox v-model="check" label="节点" :indeterminate="true" @change="handleChange"></z-checkbox>
+</z-tree>
+    <!-- <z-checkbox v-model="check" label="节点" :indeterminate="true" @change="handleChange"></z-checkbox> -->
+    <z-virtual-list class="z-virtual-list" :data-soures="items" data-key="id" :keep="6" :item-size="80">
+        <!-- <Item></Item> -->
+    </z-virtual-list>
+
 </template>
 
-<style scoped></style>
+<style scoped>
+.z-virtual-list {
+    width: 100%;
+    height: 500px;
+    overflow-y: scroll;
+    border: 3px solid red;
+}
+</style>

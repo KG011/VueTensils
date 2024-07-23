@@ -16,7 +16,7 @@ export default defineConfig({
         text: '目录',
         items: [
           { text: '快速开始', link: '/markdown-examples' },
-          { text: 'icon图标', link: '/api-examples' }
+          { text: 'icon图标', link: '/icon' }
         ]
       }
     ],

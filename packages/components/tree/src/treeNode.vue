@@ -1,7 +1,9 @@
 <template>
   <div :class="[bem.b(),bem.is('selected',isSelect)]">
     <div :class="bem.e('content')" :style="{paddingLeft:`${node.level*16}px`}">
-        <span v-if="!node.isLeaf"  :class="[bem.e('expanded-icon'), {expanded:expanded&&!node?.isLeaf}]" @click="changeExpand">></span>
+        <span v-if="!node.isLeaf"  :class="[bem.e('expanded-icon'), {expanded:expanded&&!node?.isLeaf}]" @click="changeExpand">
+          <z-icon><Switcher></Switcher></z-icon>
+        </span>
         <ZCheckbox v-if="showCheckbox" 
         :model-value="checked"
         :disabled="disabled"
@@ -23,6 +25,9 @@ import { computed, inject } from 'vue'
 import { handleError } from 'vue';
 import zTreeNodeContent from './treeNodeContent'
 import ZCheckbox from '@kg01/components/checkbox'
+import ZIcon from '@kg01/components/icons'
+import Switcher from './icon/Switcher';
+
 const props=defineProps(treeNodeProps)
 const emit=defineEmits(treeToggleEmits)
 defineOptions({

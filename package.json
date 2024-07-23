@@ -19,6 +19,8 @@
     "@kg01/components": "workspace:^",
     "@kg01/theme-chalk": "workspace:^",
     "@kg01/utils": "workspace:^",
+    "@types/mockjs": "^1.0.10",
+    "mockjs": "^1.1.0",
     "typescript": "^5.5.3",
     "vue": "^3.4.31"
   },

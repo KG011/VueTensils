@@ -4,9 +4,9 @@ outline: deep
 
 # Icon 图标
 
-This page demonstrates usage of some of the runtime APIs provided by VitePress.
+vueTensils 提供了一套常用的图标集合。
+如果你想像用例一样直接使用，你需要全局注册组件，才能够直接在项目里使用。
 
-The main `useData()` API can be used to access site, theme, and page data for the current page. It works in both `.md` and `.vue` files:
 
 ```md
 <script setup>

@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "noLib": false,
     "target": "ES6",
     "sourceMap": true,
